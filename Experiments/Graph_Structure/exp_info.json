@@ -1,0 +1,47 @@
+ {
+  "1":{
+    "surfactant": 4.66,
+    "gold": 2.83,
+    "silver": 1.27,
+    "reductant": 0.29,
+    "water": 2.45,
+    "seeds": 0.5},
+  "2":{
+    "surfactant": 1.51,
+    "gold": 2.53,
+    "silver": 0.09,
+    "reductant": 1.78,
+    "water": 5.59,
+    "seeds": 0.5},
+  "3":{
+    "surfactant": 1.85,
+    "hydroquinone": 1.07,
+    "water_reagent": 4.08,
+    "silver": 0.07,
+    "gold": 3.09,
+    "seeds": 0.5,
+    "pH": 6.5},
+  "4":{
+    "surfactant": 4.17,
+    "hydroquinone": 2.54,
+    "water_reagent": 0.29,
+    "silver": 2.3,
+    "gold": 2.7,
+    "seeds": 0.5,
+    "pH": 4.2},
+  "5":{
+    "CTAC": 6.81,
+    "gold": 1.92,
+    "silver": 0.03,
+    "HCl": 1.19,
+    "reductant": 0.60,
+    "water": 0.95,
+    "seeds": 0.5},
+  "6":{
+    "CTAC": 2.66,
+    "gold": 0.32,
+    "silver": 1e-10,
+    "HCl": 0.74,
+    "reductant": 5.25,
+    "water": 2.53,
+    "seeds": 0.5}}

@@ -1,0 +1,2 @@
+### Simulating the target spectra for experimental optimisation
+The original codes to simulate the target spectrum from Au nanorods is [here](0-rods/DDA2.ipynb). The code to simulate the target spectrum from Au octahedra is [here](1-octahedra/test.ipynb). Simply run the jupyter notebooks can create the target spectra for further optimisation. It should be noted the simulated spectra are interpolated (with cubic spline method) and normalized (in the range of 0-1) later to make them comparable to the processed experimental spectra.

@@ -1,0 +1,15 @@
+setup.py
+nanobot/__init__.py
+nanobot/manager.py
+nanobot.egg-info/PKG-INFO
+nanobot.egg-info/SOURCES.txt
+nanobot.egg-info/dependency_links.txt
+nanobot.egg-info/requires.txt
+nanobot.egg-info/top_level.txt
+nanobot/constants/__init__.py
+nanobot/constants/common.py
+nanobot/constants/filenames.py
+nanobot/constants/info_keys.py
+nanobot/operations/__init__.py
+nanobot/operations/cleaning/__init__.py
+nanobot/operations/cleaning/clean_vial.py

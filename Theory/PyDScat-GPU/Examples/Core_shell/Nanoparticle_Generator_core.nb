@@ -1,0 +1,919 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 12.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     37718,        911]
+NotebookOptionsPosition[     35234,        863]
+NotebookOutlinePosition[     35759,        882]
+CellTagsIndexPosition[     35716,        879]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Nanoparticle Shape Generator for DDA Calculations", "Title",
+ CellChangeTimes->{{3.801743835713619*^9, 
+  3.8017438583349266`*^9}},ExpressionUUID->"db66d149-a4e5-4628-9121-\
+cf339032502d"],
+
+Cell["\<\
+Abhishek Sharma, Yibin Jiang
+Cronin Lab
+University of Glasgow\
+\>", "Subsubsection",
+ CellChangeTimes->{{3.8133462718972087`*^9, 3.813346284413179*^9}, {
+  3.8384558561805887`*^9, 3.838455857656348*^9}, {3.8384559152353487`*^9, 
+  3.838455921547884*^9}, {3.8384560429495697`*^9, 
+  3.8384560485492067`*^9}},ExpressionUUID->"5d5151d6-d6f3-43f3-8807-\
+464e7556b0c6"],
+
+Cell[CellGroupData[{
+
+Cell["Create Nanoparticles", "Section",
+ CellChangeTimes->{{3.8161793547617264`*^9, 3.81617937117398*^9}, {
+  3.8342236625005956`*^9, 
+  3.834223663021614*^9}},ExpressionUUID->"daa3bb70-c18e-410e-980b-\
+5a43704267b7"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"baseDirectory", "=", 
+  RowBox[{"NotebookDirectory", "[", "]"}]}]], "Input",
+ CellChangeTimes->{{3.8021760123870335`*^9, 3.802176025481643*^9}},
+ CellLabel->"In[1]:=",ExpressionUUID->"a55b113c-5d47-4300-b210-471eb851eebd"],
+
+Cell[BoxData["\<\"C:\\\\Users\\\\group\\\\Desktop\\\\workspace\\\\discrete-\
+dipole-approximation\\\\multi_metal\\\\Core_shell\\\\\"\>"], "Output",
+ CellChangeTimes->{3.817122057629834*^9, 3.817124843582225*^9, 
+  3.817176072199664*^9},
+ CellLabel->"Out[1]=",ExpressionUUID->"345de670-41b5-41b8-8c3c-c278879498e0"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"basisFCC", "=", 
+  RowBox[{
+   FractionBox["1", "2"], 
+   RowBox[{"LatticeData", "[", 
+    RowBox[{"\"\<FaceCenteredCubic\>\"", ",", "\"\<Basis\>\""}], 
+    "]"}]}]}]], "Input",
+ CellChangeTimes->{{3.8021649119690733`*^9, 3.8021649254204865`*^9}, {
+  3.8021649737149706`*^9, 3.802164995049968*^9}, {3.8021714287939053`*^9, 
+  3.8021714508341084`*^9}, {3.816166194462883*^9, 3.8161661959725857`*^9}},
+ CellLabel->"In[2]:=",ExpressionUUID->"2edf6b60-0788-4df3-9c87-6e5238c65447"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"-", 
+      FractionBox["1", "2"]}], ",", 
+     RowBox[{"-", 
+      FractionBox["1", "2"]}], ",", "0"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     FractionBox["1", "2"], ",", 
+     RowBox[{"-", 
+      FractionBox["1", "2"]}], ",", "0"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", 
+     FractionBox["1", "2"], ",", 
+     RowBox[{"-", 
+      FractionBox["1", "2"]}]}], "}"}]}], "}"}]], "Output",
+ CellChangeTimes->{3.8171760873789015`*^9},
+ CellLabel->"Out[2]=",ExpressionUUID->"9bdebab7-d009-407e-9712-22dcab579d74"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"ListPointPlot3D", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"Tuples", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"Range", "[", 
+          RowBox[{
+           RowBox[{
+           "#", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], ",", 
+           RowBox[{
+           "#", "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}]}], 
+          "]"}], "&"}], "/@", 
+        RowBox[{"Evaluate", "[", " ", 
+         RowBox[{"Ceiling", "/@", 
+          RowBox[{"N", "[", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"-", "1"}], ",", "1"}], "}"}], ",", 
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"-", "1"}], ",", "1"}], "}"}], ",", 
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"-", "1"}], ",", "1"}], "}"}]}], "}"}], "]"}]}], 
+         "]"}]}], "]"}], ".", "basisFCC"}], ")"}], "//", "N"}], ",", 
+   RowBox[{"LabelStyle", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{"Black", ",", 
+      RowBox[{"Directive", "[", 
+       RowBox[{"Black", ",", 
+        RowBox[{"FontColor", "\[Rule]", "Black"}], ",", 
+        RowBox[{"FontSize", "\[Rule]", "12"}]}], "]"}]}], "}"}]}], ",", 
+   RowBox[{"Boxed", "\[Rule]", " ", "True"}], ",", 
+   RowBox[{"PlotStyle", "\[Rule]", " ", "Black"}], ",", 
+   RowBox[{"ViewProjection", "\[Rule]", "\"\<Orthographic\>\""}], ",", 
+   RowBox[{"ImageSize", "\[Rule]", "200"}], ",", 
+   RowBox[{"ViewPoint", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{"1", ",", "1", ",", "1"}], "}"}]}], ",", 
+   RowBox[{"ImageSize", "\[Rule]", "500"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.816166209658303*^9, 3.816166282462447*^9}, {
+  3.8161663496524086`*^9, 3.8161663552624836`*^9}, {3.816166429940527*^9, 
+  3.816166507433367*^9}, {3.8161665572568164`*^9, 3.8161666276910887`*^9}},
+ CellLabel->"In[3]:=",ExpressionUUID->"c18132d8-2d05-4bbc-802f-e510c5985a63"],
+
+Cell[BoxData[
+ Graphics3DBox[{{
+    {GrayLevel[0], PointSize[
+      NCache[
+       Rational[7, 200], 0.035]], Point3DBox[CompressedData["
+1:eJxTTMoPSmViYGCQBmJmBnTwwB6VhoEP9hhKweAHTP1+7PrQzcMl/wHNHHQ+
+ujp08AHdnv2oNIZ7cLkXh/3o8uj6cAFc9n1A46OrQ9eP4T40/6Gbiw4w7EPT
+T0ge3X5c/B84wgeXuxD2AACfI0+C
+      "]]}, {}, {}}, {}},
+  Axes->True,
+  AxesLabel->{None, None, None},
+  BoxRatios->{1, 1, 0.4},
+  Boxed->True,
+  DisplayFunction->Identity,
+  FaceGrids->None,
+  FaceGridsStyle->Automatic,
+  ImageSize->200,
+  LabelStyle->{
+    GrayLevel[0], 
+    Directive[
+     GrayLevel[0], FontColor -> GrayLevel[0], FontSize -> 12]},
+  PlotRange->{{-1., 1.}, {-1.5, 1.5}, Automatic},
+  PlotRangePadding->{{
+     Scaled[0.02], 
+     Scaled[0.02]}, {
+     Scaled[0.02], 
+     Scaled[0.02]}, {0, 0}},
+  Ticks->{Automatic, Automatic, Automatic},
+  ViewPoint->{1, 1, 1},
+  ViewProjection->"Orthographic"]], "Output",
+ CellChangeTimes->{3.8171760898855247`*^9},
+ CellLabel->"Out[3]=",ExpressionUUID->"4186ef72-515d-485a-9abf-2fb6849150a1"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"createPolyhedron", "[", 
+   RowBox[{"polyhedron_", ",", "edgeLength_", ",", "latticeC_"}], "]"}], ":=", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+     "shape", ",", "shapeDiscrete", ",", "xRange", ",", "yRange", ",", 
+      "zRange", ",", "atoms", ",", "coordData", ",", "atomList", ",", 
+      "atomTypes", ",", "atomListF", ",", "nnGraph", ",", "coordNumList", ",",
+       "plot"}], "}"}], ",", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"Clear", "[", "atoms", "]"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"shape", "=", 
+      RowBox[{"Region", "[", 
+       RowBox[{
+        RowBox[{"ToExpression", "[", "polyhedron", "]"}], "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{"0.", ",", "0.", ",", "0."}], "}"}], ",", 
+         RowBox[{"edgeLength", "/", "latticeC"}]}], "]"}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"shapeDiscrete", "=", 
+      RowBox[{"DiscretizeRegion", "[", 
+       RowBox[{
+        RowBox[{"ToExpression", "[", "polyhedron", "]"}], "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{"0.", ",", "0.", ",", "0."}], "}"}], ",", 
+         RowBox[{"edgeLength", "/", "latticeC"}]}], "]"}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"xRange", ",", " ", "yRange", ",", " ", "zRange"}], "}"}], "=", 
+      RowBox[{"N", "@", 
+       RowBox[{"RegionBounds", "[", "shapeDiscrete", "]"}]}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<Region Bounds : \>\"", ",", 
+       RowBox[{"{", 
+        RowBox[{"xRange", ",", " ", "yRange", ",", " ", "zRange"}], "}"}]}], 
+      "]"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"atomList", "=", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"Tuples", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"Range", "[", 
+             RowBox[{
+              RowBox[{
+              "#", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], 
+              ",", 
+              RowBox[{
+              "#", "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}]}], 
+             "]"}], "&"}], "/@", 
+           RowBox[{"Evaluate", "[", " ", 
+            RowBox[{"Round", "/@", 
+             RowBox[{"N", "[", 
+              RowBox[{"3", 
+               RowBox[{"{", 
+                RowBox[{"xRange", ",", "yRange", ",", "zRange"}], "}"}]}], 
+              "]"}]}], "]"}]}], "]"}], ".", "basisFCC"}], ")"}], "//", 
+       "N"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"atomListF", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Pick", "[", 
+         RowBox[{
+          RowBox[{"#", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}],
+           ",", 
+          RowBox[{
+          "#", "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}]}], 
+         "]"}], "&"}], "/@", 
+       RowBox[{"Evaluate", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"#", ",", 
+            RowBox[{"RegionMember", "[", 
+             RowBox[{"shapeDiscrete", ",", "#"}], "]"}]}], "}"}], "&"}], "/@",
+          "atomList"}], "]"}]}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"atomTypes", "=", 
+      RowBox[{"RandomChoice", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"\"\<Au\>\"", ",", "\"\<Ag\>\""}], "}"}], ",", 
+        RowBox[{"Length", "@", "atomListF"}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"atoms", "=", 
+      RowBox[{"MapThread", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"Flatten", "@", 
+          RowBox[{"{", 
+           RowBox[{"#1", ",", "#2"}], "}"}]}], "&"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"atomTypes", ",", "atomListF"}], "}"}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<Total Number of Atoms: \>\"", ",", 
+       RowBox[{"Length", "@", "atomListF"}]}], "]"}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"coordData", "=", 
+      RowBox[{"atoms", "\[LeftDoubleBracket]", 
+       RowBox[{"All", ",", 
+        RowBox[{"2", ";;", "4"}]}], "\[RightDoubleBracket]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"nnGraph", "=", 
+      RowBox[{"NearestNeighborGraph", "[", "coordData", "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"coordNumList", "=", 
+      RowBox[{"Monitor", "[", 
+       RowBox[{
+        RowBox[{"Table", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"Length", "[", 
+            RowBox[{"VertexList", "[", 
+             RowBox[{"NeighborhoodGraph", "[", 
+              RowBox[{"nnGraph", ",", 
+               RowBox[{
+               "coordData", "\[LeftDoubleBracket]", "i", 
+                "\[RightDoubleBracket]"}]}], "]"}], "]"}], "]"}], "-", "1"}], 
+          ",", 
+          RowBox[{"{", 
+           RowBox[{"i", ",", 
+            RowBox[{"Length", "@", "coordData"}]}], "}"}]}], "]"}], ",", 
+        "i"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"Export", "[", 
+      RowBox[{
+       RowBox[{"baseDirectory", "<>", "\"\<atomList_\>\"", "<>", 
+        RowBox[{"ToString", "[", "polyhedron", "]"}], "<>", 
+        RowBox[{"ToString", "[", "edgeLength", "]"}], "<>", "\"\<.csv\>\""}], 
+       ",", "atoms", ",", "\"\<CSV\>\""}], "]"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"Export", "[", 
+      RowBox[{
+       RowBox[{"baseDirectory", "<>", "\"\<coordNumList_\>\"", "<>", 
+        RowBox[{"ToString", "[", "polyhedron", "]"}], "<>", 
+        RowBox[{"ToString", "[", "edgeLength", "]"}], "<>", "\"\<.csv\>\""}], 
+       ",", "coordNumList", ",", "\"\<CSV\>\""}], "]"}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"plot", "=", 
+      RowBox[{"Graphics3D", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{
+               RowBox[{
+               "#", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], 
+               "\[Equal]", " ", "\"\<Au\>\""}], ",", "Yellow", ",", "Gray"}], 
+             "]"}], ",", 
+            RowBox[{"Sphere", "[", 
+             RowBox[{
+              RowBox[{"#", "\[LeftDoubleBracket]", 
+               RowBox[{"2", ";;", "4"}], "\[RightDoubleBracket]"}], ",", 
+              RowBox[{"latticeC", "/", "2"}]}], "]"}]}], "}"}], "&"}], "/@", 
+         "atoms"}], ",", 
+        RowBox[{"LabelStyle", "\[Rule]", 
+         RowBox[{"{", 
+          RowBox[{"Black", ",", 
+           RowBox[{"Directive", "[", 
+            RowBox[{"Black", ",", 
+             RowBox[{"FontColor", "\[Rule]", "Black"}], ",", 
+             RowBox[{"FontSize", "\[Rule]", "12"}]}], "]"}]}], "}"}]}], ",", 
+        RowBox[{"Boxed", "\[Rule]", "True"}], ",", 
+        RowBox[{"Axes", "\[Rule]", " ", "True"}], ",", 
+        RowBox[{"ImageSize", "\[Rule]", "200"}], ",", 
+        RowBox[{"ViewProjection", "\[Rule]", "\"\<Orthographic\>\""}], ",", 
+        RowBox[{"ViewPoint", "\[Rule]", 
+         RowBox[{"{", 
+          RowBox[{"2", ",", 
+           RowBox[{"-", "2"}], ",", "1"}], "}"}]}], ",", 
+        RowBox[{"ImageSize", "\[Rule]", "200"}]}], "]"}]}], ";", 
+     RowBox[{"Export", "[", 
+      RowBox[{
+       RowBox[{"baseDirectory", "<>", "\"\<atomList_Truncated\>\"", "<>", 
+        RowBox[{"ToString", "[", "polyhedron", "]"}], "<>", 
+        RowBox[{"ToString", "[", "edgeLength", "]"}], "<>", "\"\<.png\>\""}], 
+       ",", "plot", ",", 
+       RowBox[{"ImageResolution", "\[Rule]", "300"}]}], "]"}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"Return", "[", "plot", "]"}]}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.802165790054517*^9, 3.802165886040865*^9}, {
+   3.802165937065998*^9, 3.8021659569937363`*^9}, {3.802165993281233*^9, 
+   3.8021660124705243`*^9}, {3.8021661239365005`*^9, 
+   3.8021661807389855`*^9}, {3.802166222760106*^9, 3.8021663892221327`*^9}, {
+   3.802166510853138*^9, 3.80216655111417*^9}, {3.8021667064002695`*^9, 
+   3.8021667120487776`*^9}, {3.802166749914218*^9, 3.8021668492194443`*^9}, {
+   3.802167067876696*^9, 3.802167092820923*^9}, {3.8021671264188027`*^9, 
+   3.802167195193157*^9}, {3.802167349105894*^9, 3.8021673671861453`*^9}, {
+   3.802173979589042*^9, 3.802173982625016*^9}, {3.8021760504092693`*^9, 
+   3.802176052682078*^9}, {3.802280518300848*^9, 3.8022805370259676`*^9}, {
+   3.8022809128187046`*^9, 3.802280925740999*^9}, {3.802280990383565*^9, 
+   3.8022810157887254`*^9}, {3.802283045823803*^9, 3.8022830640479946`*^9}, {
+   3.8022836048626947`*^9, 3.8022836068485193`*^9}, {3.8022838103989134`*^9, 
+   3.8022838132667074`*^9}, {3.802366833021763*^9, 3.802366833253807*^9}, {
+   3.8156544584810734`*^9, 3.815654470755856*^9}, 3.8156545103658533`*^9, {
+   3.8156545831504774`*^9, 3.815654589113677*^9}, {3.8156547584255705`*^9, 
+   3.815654769255424*^9}, {3.8156548253674507`*^9, 3.8156549012274747`*^9}, 
+   3.8156552411929464`*^9, {3.816166696575735*^9, 3.816166796317037*^9}, 
+   3.8161757056479006`*^9, {3.8161773625968466`*^9, 3.8161773684939375`*^9}, {
+   3.816178782936904*^9, 3.8161788704745455`*^9}, {3.8171761087269096`*^9, 
+   3.817176128887941*^9}, {3.8171770377503824`*^9, 
+   3.8171770431062727`*^9}},ExpressionUUID->"dcccf614-8c85-4499-a060-\
+38ba5d03aa0b"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"latticeCAu", "=", "0.41"}], ";"}]], "Input",
+ CellChangeTimes->{{3.816175825868671*^9, 3.8161758300315833`*^9}, 
+   3.817078088804034*^9},
+ CellLabel->"In[5]:=",ExpressionUUID->"c7af2152-04a9-4379-b23d-563e2877f3b2"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Table", "[", 
+   RowBox[{
+    RowBox[{"p2", "=", 
+     RowBox[{"createPolyhedron", "[", 
+      RowBox[{"\"\<Octahedron\>\"", ",", "i", ",", "latticeCAu"}], "]"}]}], 
+    ",", 
+    RowBox[{"{", 
+     RowBox[{"i", ",", "10", ",", "20", ",", "2"}], "}"}]}], "]"}], 
+  ";"}]], "Input",
+ CellChangeTimes->{{3.8021661923860135`*^9, 3.802166207107231*^9}, {
+   3.802167433709491*^9, 3.8021674351976147`*^9}, {3.802171788896949*^9, 
+   3.8021717890291376`*^9}, {3.8021725190123262`*^9, 3.8021725272417936`*^9}, 
+   3.802172572507786*^9, {3.8021738132964554`*^9, 3.8021738239413605`*^9}, {
+   3.802243398745521*^9, 3.802243399310024*^9}, 3.8022450777054844`*^9, {
+   3.8022803693364325`*^9, 3.8022779834281745`*^9}, 3.802279111395629*^9, {
+   3.802282628391148*^9, 3.802282628462964*^9}, 3.8022826928648167`*^9, 
+   3.80228295123396*^9, 3.816175799303957*^9, 3.816248698054607*^9, 
+   3.816253482269797*^9, {3.8162729138320284`*^9, 3.8162729189345894`*^9}, 
+   3.816274658715864*^9, {3.8170191739966087`*^9, 3.8170191758195825`*^9}, {
+   3.8170215983032627`*^9, 3.817021616658125*^9}, {3.8171761345852795`*^9, 
+   3.8171761695260763`*^9}},
+ CellLabel->"In[8]:=",ExpressionUUID->"bfb3c251-0254-4778-81f3-23927ed73966"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"createTruncatedPolyhedron", "[", 
+   RowBox[{
+   "polyhedron_", ",", "edgeLength_", ",", "latticeC_", ",", "ratio_"}], 
+   "]"}], ":=", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+     "coord", ",", "shapeDiscrete", ",", "xRange", ",", "yRange", ",", 
+      "zRange", ",", "atoms", ",", "coordData", ",", "atomList", ",", 
+      "atomTypes", ",", "atomListF", ",", "nnGraph", ",", "coordNumList", ",",
+       "plot"}], "}"}], ",", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"coord", "=", 
+      RowBox[{"PolyhedronCoordinates", "[", 
+       RowBox[{"TruncatedPolyhedron", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"ToExpression", "[", "polyhedron", "]"}], "[", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"0.", ",", "0.", ",", "0."}], "}"}], ",", 
+           RowBox[{"edgeLength", "/", "latticeC"}]}], "]"}], ",", "ratio"}], 
+        "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"shapeDiscrete", "=", 
+      RowBox[{"DelaunayMesh", "[", "coord", "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"xRange", ",", " ", "yRange", ",", " ", "zRange"}], "}"}], "=", 
+      RowBox[{"N", "@", 
+       RowBox[{"RegionBounds", "[", "shapeDiscrete", "]"}]}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<Region Bounds : \>\"", ",", 
+       RowBox[{"{", 
+        RowBox[{"xRange", ",", " ", "yRange", ",", " ", "zRange"}], "}"}]}], 
+      "]"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"atomList", "=", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"Tuples", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"Range", "[", 
+             RowBox[{
+              RowBox[{
+              "#", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], 
+              ",", 
+              RowBox[{
+              "#", "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}]}], 
+             "]"}], "&"}], "/@", 
+           RowBox[{"Evaluate", "[", " ", 
+            RowBox[{"Round", "/@", 
+             RowBox[{"N", "[", 
+              RowBox[{"3", 
+               RowBox[{"{", 
+                RowBox[{"xRange", ",", " ", "yRange", ",", "zRange"}], 
+                "}"}]}], "]"}]}], "]"}]}], "]"}], ".", "basisFCC"}], ")"}], "//",
+        "N"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"atomListF", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Pick", "[", 
+         RowBox[{
+          RowBox[{"#", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}],
+           ",", 
+          RowBox[{
+          "#", "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}]}], 
+         "]"}], "&"}], "/@", 
+       RowBox[{"Evaluate", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"#", ",", 
+            RowBox[{"RegionMember", "[", 
+             RowBox[{"shapeDiscrete", ",", "#"}], "]"}]}], "}"}], "&"}], "/@",
+          "atomList"}], "]"}]}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"atomTypes", "=", 
+      RowBox[{"RandomChoice", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"\"\<Au\>\"", ",", "\"\<Ag\>\""}], "}"}], ",", 
+        RowBox[{"Length", "@", "atomListF"}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"atoms", "=", 
+      RowBox[{"MapThread", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"Flatten", "@", 
+          RowBox[{"{", 
+           RowBox[{"#1", ",", "#2"}], "}"}]}], "&"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"atomTypes", ",", "atomListF"}], "}"}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<Total Number of Atoms: \>\"", ",", 
+       RowBox[{"Length", "@", "atomListF"}]}], "]"}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"coordData", "=", 
+      RowBox[{"atoms", "\[LeftDoubleBracket]", 
+       RowBox[{"All", ",", 
+        RowBox[{"2", ";;", "4"}]}], "\[RightDoubleBracket]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"nnGraph", "=", 
+      RowBox[{"NearestNeighborGraph", "[", "coordData", "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"coordNumList", "=", 
+      RowBox[{"Monitor", "[", 
+       RowBox[{
+        RowBox[{"Table", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"Length", "[", 
+            RowBox[{"VertexList", "[", 
+             RowBox[{"NeighborhoodGraph", "[", 
+              RowBox[{"nnGraph", ",", 
+               RowBox[{
+               "coordData", "\[LeftDoubleBracket]", "i", 
+                "\[RightDoubleBracket]"}]}], "]"}], "]"}], "]"}], "-", "1"}], 
+          ",", 
+          RowBox[{"{", 
+           RowBox[{"i", ",", 
+            RowBox[{"Length", "@", "coordData"}]}], "}"}]}], "]"}], ",", 
+        "i"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"Export", "[", 
+      RowBox[{
+       RowBox[{"baseDirectory", "<>", "\"\<atomList_Truncated\>\"", "<>", 
+        RowBox[{"ToString", "[", "polyhedron", "]"}], "<>", "\"\<.csv\>\""}], 
+       ",", "atoms", ",", "\"\<CSV\>\""}], "]"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"Export", "[", 
+      RowBox[{
+       RowBox[{"baseDirectory", "<>", "\"\<coordNumList_Truncated\>\"", "<>", 
+        RowBox[{"ToString", "[", "polyhedron", "]"}], "<>", "\"\<.csv\>\""}], 
+       ",", "coordNumList", ",", "\"\<CSV\>\""}], "]"}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"plot", "=", 
+      RowBox[{"Graphics3D", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{
+               RowBox[{
+               "#", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], 
+               "\[Equal]", " ", "\"\<Au\>\""}], ",", "Yellow", ",", "Gray"}], 
+             "]"}], ",", 
+            RowBox[{"Sphere", "[", 
+             RowBox[{
+              RowBox[{"#", "\[LeftDoubleBracket]", 
+               RowBox[{"2", ";;", "4"}], "\[RightDoubleBracket]"}], ",", 
+              RowBox[{"latticeC", "/", "2"}]}], "]"}]}], "}"}], "&"}], "/@", 
+         "atoms"}], ",", 
+        RowBox[{"LabelStyle", "\[Rule]", 
+         RowBox[{"{", 
+          RowBox[{"Black", ",", 
+           RowBox[{"Directive", "[", 
+            RowBox[{"Black", ",", 
+             RowBox[{"FontColor", "\[Rule]", "Black"}], ",", 
+             RowBox[{"FontSize", "\[Rule]", "12"}]}], "]"}]}], "}"}]}], ",", 
+        RowBox[{"BoxRatios", "\[Rule]", 
+         RowBox[{"{", 
+          RowBox[{"1", ",", " ", "1", ",", " ", "1"}], "}"}]}], ",", 
+        RowBox[{"Boxed", "\[Rule]", "True"}], ",", 
+        RowBox[{"Axes", "\[Rule]", " ", "True"}], ",", 
+        RowBox[{"ImageSize", "\[Rule]", "200"}], ",", 
+        RowBox[{"ViewProjection", "\[Rule]", "\"\<Orthographic\>\""}], ",", 
+        RowBox[{"ViewPoint", "\[Rule]", 
+         RowBox[{"{", 
+          RowBox[{"2", ",", 
+           RowBox[{"-", "2"}], ",", "1"}], "}"}]}], ",", 
+        RowBox[{"ImageSize", "\[Rule]", "200"}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"Export", "[", 
+      RowBox[{
+       RowBox[{"baseDirectory", "<>", "\"\<atomList_Truncated\>\"", "<>", 
+        RowBox[{"ToString", "[", "polyhedron", "]"}], "<>", "\"\<.png\>\""}], 
+       ",", "plot", ",", 
+       RowBox[{"ImageResolution", "\[Rule]", "300"}]}], "]"}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"Return", "[", "plot", "]"}]}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.8021742058227205`*^9, 3.8021742488963366`*^9}, {
+   3.802174400361506*^9, 3.8021744294566774`*^9}, {3.8021745575963416`*^9, 
+   3.802174588956627*^9}, {3.802175130242409*^9, 3.8021751318966923`*^9}, {
+   3.802176066928157*^9, 3.8021760684857016`*^9}, {3.8021761971670895`*^9, 
+   3.8021761977061276`*^9}, {3.8022804032163053`*^9, 3.802279653179472*^9}, {
+   3.8022805131774745`*^9, 3.802280545316735*^9}, {3.8022809022411833`*^9, 
+   3.802280904030965*^9}, 3.8022810308386765`*^9, {3.80228109922868*^9, 
+   3.8022811059408026`*^9}, {3.8022835992194815`*^9, 3.802283602006792*^9}, {
+   3.8022838229417944`*^9, 3.802283825660803*^9}, {3.8161766076685066`*^9, 
+   3.816176641081878*^9}, 3.816176829946283*^9, {3.8161770298370733`*^9, 
+   3.8161770302969584`*^9}, {3.816177122387154*^9, 3.8161771405468807`*^9}, {
+   3.8161772820655594`*^9, 3.8161772860453362`*^9}, {3.8161773552281094`*^9, 
+   3.816177355923493*^9}, 3.816177828920678*^9, {3.8161780941158724`*^9, 
+   3.8161782541692524`*^9}, {3.816191600335908*^9, 3.816191600824656*^9}},
+ CellLabel->"In[6]:=",ExpressionUUID->"f9533a0d-70a0-4b1a-bc03-3d4784c0b681"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"p4", "=", 
+   RowBox[{"createTruncatedPolyhedron", "[", 
+    RowBox[{"\"\<Octahedron\>\"", ",", "10", ",", "latticeCAu", ",", "0.1"}], 
+    "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.8021726648736253`*^9, 3.8021726947949095`*^9}, {
+   3.802172791236209*^9, 3.8021728065330925`*^9}, {3.802173752125228*^9, 
+   3.8021737859992743`*^9}, {3.8021744436641235`*^9, 
+   3.8021744549382095`*^9}, {3.802174612096314*^9, 3.802174642974758*^9}, {
+   3.8021746969122744`*^9, 3.802174710633234*^9}, {3.802243077140439*^9, 
+   3.802243079696582*^9}, {3.8022433837721825`*^9, 3.802243384158125*^9}, 
+   3.802245569545289*^9, {3.8022803842202854`*^9, 3.80227803273273*^9}, 
+   3.8022791209807353`*^9, {3.802279689127976*^9, 3.8022796902141747`*^9}, 
+   3.802279798090251*^9, 3.802282602187851*^9, 3.802282700661049*^9, 
+   3.8022829584529257`*^9, 3.802340069213971*^9, {3.802342758673518*^9, 
+   3.802342761250663*^9}, {3.8161766554359956`*^9, 3.816176682098333*^9}, 
+   3.816177731148157*^9, {3.8161778638945937`*^9, 3.8161778678101764`*^9}, 
+   3.8161779235660553`*^9, 3.81617796585597*^9, {3.8162729561570115`*^9, 
+   3.816272956672209*^9}, 3.816274668125108*^9},
+ CellLabel->"In[6]:=",ExpressionUUID->"ccbc68d6-9801-41a8-ab50-7cfaecc6ace5"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Create Dipoles for Nanoparticle coordinate data", "Section",
+ CellChangeTimes->{{3.8161793547617264`*^9, 
+  3.816179398364151*^9}},ExpressionUUID->"ca170962-1ed0-4723-b3b5-\
+ce888c8b7005"],
+
+Cell["\<\
+Here, we create dipoles from the atomic coordinate data. Each dipole \
+constitutes a cubical volume and based on the number and type of atoms \
+present in the cubical volume, we will assign polarizability to the given \
+dipole.\
+\>", "Text",
+ CellChangeTimes->{{3.8161901444203176`*^9, 
+  3.816190243291305*^9}},ExpressionUUID->"aab12d3f-a3ac-4794-a730-\
+b743a0498fd8"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"latticeC", "=", " ", "0.41"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"dLength", " ", "=", " ", "1.0"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.8170791892694254`*^9, 3.817079198677098*^9}, {
+  3.8170908024508696`*^9, 3.817090803320863*^9}},
+ CellLabel->"In[1]:=",ExpressionUUID->"5a158206-d54c-4b32-8dc9-d2ffb63308f9"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"createDipoles", "[", 
+   RowBox[{
+   "coordData_", ",", " ", "coordNumData_", ",", " ", "baseDirectory_"}], 
+   "]"}], " ", ":=", " ", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+     "xRange", ",", " ", "yRange", ",", " ", "zRange", ",", " ", "nDipolesX", 
+      ",", " ", "nDipolesY", ",", " ", "nDipolesZ", ",", " ", "dipoleList", 
+      ",", " ", "dipoleListF", ",", "coordDataReal", ",", "coordNumList", ",",
+       "SurfaceAtoms", ",", "RegionMesh"}], "}"}], ",", "\n", "    ", 
+    RowBox[{"(*", " ", 
+     RowBox[{
+     "Creates", " ", "coordinates", " ", "of", " ", "the", " ", "dipoles", 
+      " ", "by", " ", "creating", " ", "continuum", " ", "mesh", " ", "for", 
+      " ", "DDA", " ", "calculations"}], " ", "*)"}], "\n", "    ", 
+    RowBox[{
+     RowBox[{"coordDataReal", " ", "=", " ", 
+      RowBox[{"coordData", "*", "latticeC"}]}], ";", " ", 
+     RowBox[{"(*", " ", 
+      RowBox[{
+      "Converting", " ", "atomic", " ", "coordinates", " ", "into", " ", 
+       "nm"}], " ", "*)"}], "\n", "    ", 
+     RowBox[{"coordNumList", " ", "=", " ", 
+      RowBox[{"Flatten", "@", 
+       RowBox[{"(", 
+        RowBox[{"IntegerPart", "/@", "coordNumData"}], ")"}]}]}], ";", "\n", 
+     "    ", 
+     RowBox[{"SurfaceAtoms", " ", "=", " ", 
+      RowBox[{"Pick", "[", 
+       RowBox[{"coordDataReal", ",", " ", "coordNumList", ",", " ", 
+        RowBox[{"Except", "[", 
+         RowBox[{"12", ",", "_Integer"}], "]"}]}], "]"}]}], ";", "\n", "    ", 
+     RowBox[{"RegionMesh", " ", "=", " ", 
+      RowBox[{"DelaunayMesh", "[", "SurfaceAtoms", "]"}]}], ";", "\n", "    ", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"xRange", ",", " ", "yRange", ",", " ", "zRange"}], "}"}], " ",
+       "=", " ", 
+      RowBox[{"N", "@", 
+       RowBox[{"RegionBounds", "[", "RegionMesh", "]"}]}]}], ";", "\n", 
+     "    ", 
+     RowBox[{"nDipolesX", " ", "=", " ", 
+      RowBox[{
+       RowBox[{"First", "@", 
+        RowBox[{"Round", "[", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"1", "/", "dLength"}], ")"}], "*", 
+          RowBox[{"Differences", "@", "xRange"}]}], "]"}]}], "+", "3"}]}], 
+     ";", "\n", "    ", 
+     RowBox[{"nDipolesY", " ", "=", " ", 
+      RowBox[{
+       RowBox[{"First", "@", 
+        RowBox[{"Round", "[", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"1", "/", "dLength"}], ")"}], "*", 
+          RowBox[{"Differences", "@", "yRange"}]}], "]"}]}], "+", "3"}]}], 
+     ";", "\n", "    ", 
+     RowBox[{"nDipolesZ", " ", "=", " ", 
+      RowBox[{
+       RowBox[{"First", "@", 
+        RowBox[{"Round", "[", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"1", "/", "dLength"}], ")"}], "*", 
+          RowBox[{"Differences", "@", "zRange"}]}], "]"}]}], "+", "3"}]}], 
+     ";", "\n", "    ", 
+     RowBox[{"dipoleList", " ", "=", " ", 
+      RowBox[{"Flatten", "[", 
+       RowBox[{
+        RowBox[{"Table", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"xRange", "[", 
+              RowBox[{"[", "1", "]"}], "]"}], "+", " ", 
+             RowBox[{"xD", "*", "dLength"}]}], ",", " ", "\n", 
+            "                                ", 
+            RowBox[{
+             RowBox[{"yRange", "[", 
+              RowBox[{"[", "1", "]"}], "]"}], "+", " ", 
+             RowBox[{"yD", "*", "dLength"}]}], ",", "\n", 
+            "                                ", 
+            RowBox[{
+             RowBox[{"zRange", "[", 
+              RowBox[{"[", "1", "]"}], "]"}], " ", "+", " ", 
+             RowBox[{"zD", "*", "dLength"}]}]}], "}"}], ",", "\n", 
+          "                                ", 
+          RowBox[{"{", 
+           RowBox[{"xD", ",", "0", ",", "nDipolesX"}], "}"}], ",", " ", 
+          RowBox[{"{", 
+           RowBox[{"yD", ",", "0", ",", "nDipolesY"}], "}"}], ",", " ", 
+          RowBox[{"{", 
+           RowBox[{"zD", ",", "0", ",", "nDipolesZ"}], "}"}]}], "]"}], ",", 
+        "2"}], "]"}]}], ";", "\n", "    ", 
+     RowBox[{"dipoleListF", " ", "=", " ", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Pick", "[", 
+         RowBox[{
+          RowBox[{"#", "[", 
+           RowBox[{"[", "1", "]"}], "]"}], ",", " ", 
+          RowBox[{"#", "[", 
+           RowBox[{"[", "2", "]"}], "]"}]}], "]"}], "&"}], "/@", 
+       RowBox[{"Evaluate", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"#", ",", " ", 
+            RowBox[{"RegionMember", "[", 
+             RowBox[{"RegionMesh", ",", " ", "#"}], "]"}]}], "}"}], "&"}], "/@",
+          "dipoleList"}], "]"}]}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"dipoleListF", " ", "=", " ", 
+      FractionBox["dipoleListF", "dLength"]}], ";", "\n", "    ", 
+     RowBox[{"Export", "[", 
+      RowBox[{
+       RowBox[{
+       "baseDirectory", " ", "<>", " ", "\"\<//dipoleList_\>\"", " ", "<>", 
+        " ", 
+        RowBox[{"ToString", "[", "dLength", "]"}], "<>", "\"\<_d_le_\>\"", 
+        " ", "<>", " ", "\"\<.csv\>\""}], ",", " ", "dipoleListF", ",", 
+       "\"\<CSV\>\""}], "]"}], ";", "\n", "    ", 
+     RowBox[{"Return", "[", 
+      RowBox[{"Length", "@", "dipoleListF"}], "]"}]}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.8170781618270025`*^9, 3.8170781651334343`*^9}, {
+   3.817078381389353*^9, 3.817078382374346*^9}, {3.8170787916170473`*^9, 
+   3.8170788424685607`*^9}, {3.8170791545238905`*^9, 3.817079177885703*^9}, {
+   3.817079374460015*^9, 3.8170794236721463`*^9}, {3.817079492208865*^9, 
+   3.817079495341155*^9}, {3.8170795768187447`*^9, 3.81707957730774*^9}, {
+   3.817079621223502*^9, 3.8170796279477186`*^9}, {3.8170796934855213`*^9, 
+   3.8170797102414913`*^9}, 3.81709095449693*^9, {3.8170917410298634`*^9, 
+   3.8170918239806833`*^9}, {3.817092113602539*^9, 3.817092131368427*^9}, {
+   3.8171220692836905`*^9, 3.8171220739739122`*^9}, {3.81712210526554*^9, 
+   3.817122119243388*^9}, {3.817122318808221*^9, 3.817122325167615*^9}, {
+   3.8171224199837313`*^9, 3.817122422977292*^9}, {3.817122579498239*^9, 
+   3.8171225875298777`*^9}, {3.8171229321683226`*^9, 
+   3.8171229559982786`*^9}, {3.8171242467598333`*^9, 3.817124273694231*^9}},
+ CellLabel->"In[4]:=",ExpressionUUID->"8ceafc16-9940-4272-9acf-e07361c6b676"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"coordData", " ", "=", " ", 
+   RowBox[{
+    RowBox[{"Import", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"NotebookDirectory", "[", "]"}], "<>", 
+       "\"\<atomList_Octahedron.csv\>\""}], ",", "\"\<Data\>\""}], "]"}], 
+    "\[LeftDoubleBracket]", 
+    RowBox[{"All", ",", 
+     RowBox[{"2", ";;", "4"}]}], "\[RightDoubleBracket]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"coordNumData", "=", 
+   RowBox[{"Flatten", "@", " ", 
+    RowBox[{"Import", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"NotebookDirectory", "[", "]"}], "<>", 
+       "\"\<coordNumList_Octahedron.csv\>\""}], ",", "\"\<Data\>\""}], 
+     "]"}]}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.8170908394601793`*^9, 3.8170909157570148`*^9}, {
+  3.817090968155776*^9, 3.8170909700517497`*^9}},
+ CellLabel->"In[5]:=",ExpressionUUID->"9df7de8f-a467-41f9-b88e-3b7637618ae1"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"createDipoles", "[", 
+   RowBox[{"coordData", ",", " ", "coordNumData", ",", " ", "baseDirectory"}],
+    "]"}], ";"}]], "Input",
+ CellChangeTimes->{{3.8170909435440063`*^9, 3.817090948738969*^9}},
+ CellLabel->"In[9]:=",ExpressionUUID->"e5d269f4-36ed-4eaa-8514-f1ad13baf78f"]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{949, 467},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+TaggingRules->{
+ "WelcomeScreenSettings" -> {"FEStarting" -> False}, "TryRealOnly" -> False},
+Magnification:>1.05 Inherited,
+FrontEndVersion->"12.2 for Microsoft Windows (64-bit) (December 12, 2020)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"3a0219a0-ae1d-447a-8674-40e8c7f5981e"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 194, 3, 166, "Title",ExpressionUUID->"db66d149-a4e5-4628-9121-cf339032502d"],
+Cell[777, 27, 374, 9, 101, "Subsubsection",ExpressionUUID->"5d5151d6-d6f3-43f3-8807-464e7556b0c6"],
+Cell[CellGroupData[{
+Cell[1176, 40, 217, 4, 54, "Section",ExpressionUUID->"daa3bb70-c18e-410e-980b-5a43704267b7"],
+Cell[CellGroupData[{
+Cell[1418, 48, 246, 4, 29, "Input",ExpressionUUID->"a55b113c-5d47-4300-b210-471eb851eebd"],
+Cell[1667, 54, 314, 4, 33, "Output",ExpressionUUID->"345de670-41b5-41b8-8c3c-c278879498e0"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2018, 63, 501, 10, 45, "Input",ExpressionUUID->"2edf6b60-0788-4df3-9c87-6e5238c65447"],
+Cell[2522, 75, 614, 20, 49, "Output",ExpressionUUID->"9bdebab7-d009-407e-9712-22dcab579d74"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[3173, 100, 1977, 49, 110, "Input",ExpressionUUID->"c18132d8-2d05-4bbc-802f-e510c5985a63"],
+Cell[5153, 151, 1013, 31, 162, "Output",ExpressionUUID->"4186ef72-515d-485a-9abf-2fb6849150a1"]
+}, Open  ]],
+Cell[6181, 185, 9215, 211, 530, "Input",ExpressionUUID->"dcccf614-8c85-4499-a060-38ba5d03aa0b"],
+Cell[15399, 398, 251, 5, 29, "Input",ExpressionUUID->"c7af2152-04a9-4379-b23d-563e2877f3b2"],
+Cell[15653, 405, 1243, 23, 29, "Input",ExpressionUUID->"bfb3c251-0254-4778-81f3-23927ed73966"],
+Cell[16899, 430, 8569, 201, 510, "Input",ExpressionUUID->"f9533a0d-70a0-4b1a-bc03-3d4784c0b681"],
+Cell[25471, 633, 1268, 20, 29, "Input",ExpressionUUID->"ccbc68d6-9801-41a8-ab50-7cfaecc6ace5"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[26776, 658, 194, 3, 69, "Section",ExpressionUUID->"ca170962-1ed0-4723-b3b5-ce888c8b7005"],
+Cell[26973, 663, 379, 8, 60, "Text",ExpressionUUID->"aab12d3f-a3ac-4794-a730-b743a0498fd8"],
+Cell[27355, 673, 367, 7, 50, "Input",ExpressionUUID->"5a158206-d54c-4b32-8dc9-d2ffb63308f9"],
+Cell[27725, 682, 6262, 143, 449, "Input",ExpressionUUID->"8ceafc16-9940-4272-9acf-e07361c6b676"],
+Cell[33990, 827, 904, 24, 50, "Input",ExpressionUUID->"9df7de8f-a467-41f9-b88e-3b7637618ae1"],
+Cell[34897, 853, 309, 6, 29, "Input",ExpressionUUID->"e5d269f4-36ed-4eaa-8514-f1ad13baf78f"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+

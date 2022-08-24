@@ -1,0 +1,111 @@
+<Synthesis>
+
+  <Hardware>
+    <Component
+      id="reactor"
+      type="reactor"
+    />
+  </Hardware>
+
+  <Reagents>
+    <Reagent
+      name="57-09-0 (0.2 M)"
+    />
+    <Reagent
+      name="16961-25-4 (0.00086 M)"
+    />
+    <Reagent
+      name="7761-88-8 (0.00025 M)"
+    />
+    <Reagent
+      name="123-31-9 (0.0131 M)"
+    />
+    <Reagent
+      name="7732-18-5"
+    />
+    <Reagent
+      name="7647-01-0 (0.1 M)"
+    />
+    <Reagent
+      name="1310-73-2 (0.1 M)"
+    />
+    <Reagent
+      name="bb669cd6bedb01d4b02403646a422ca2df5c5c0bc64477dc07c9021a8f487984"
+    />
+  </Reagents>
+
+  <Procedure>
+    <HeatChillToTemp
+      vessel="reactor"
+      temp = "30"
+    />
+    <StartStir
+      vessel="reactor"
+      stir_speed = "600"
+    />
+    <Add
+      vessel="reactor"
+      reagent="57-09-0 (0.2 M)"
+      volume="4.17 mL"
+    />
+    <Add
+      vessel="reactor"
+      reagent="123-31-9 (0.0131 M)"
+      volume="2.54 mL"
+    />
+    <Add
+      vessel="reactor"
+      reagent="7732-18-5"
+      volume="0.29 mL"
+    />
+    <Add
+      vessel="reactor"
+      reagent="7647-01-0 (0.1 M)"
+      volume="0.02519979670170358 mL"
+    /> 
+    <Wait
+      time = '10 s'
+    />
+    <Add
+      vessel="reactor"
+      reagent="1310-73-2 (0.1 M)"
+      volume="0.012992541737983214 mL"
+    /> 
+    <Wait
+      time = '10 s'
+    />
+    <Add
+      vessel="reactor"
+      reagent="1310-73-2 (0.1 M)"
+      volume="0.006167108389126075 mL"
+    /> 
+    <Wait
+      time = '10 s'
+    />
+    <Wait
+      time = '15 s'
+    />
+    <Add
+      vessel="reactor"
+      reagent="7761-88-8 (0.00025 M)"
+      volume="2.30 mL"
+    />
+    <Add
+      vessel="reactor"
+      reagent="16961-25-4 (0.00086 M)"
+      volume="2.70 mL"
+    />
+    <Add
+      vessel="reactor"
+      reagent="bb669cd6bedb01d4b02403646a422ca2df5c5c0bc64477dc07c9021a8f487984"
+      volume="0.50 mL"
+    />
+    <StopStir
+      vessel="reactor"
+    />
+    <Wait
+      time = '59297 s'
+    />
+  </Procedure>
+
+</Synthesis>

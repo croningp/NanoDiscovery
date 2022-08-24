@@ -1,0 +1,10 @@
+pyserial==3.4.0
+numpy
+scipy
+seabreeze
+opencv-python
+
+git+https://github.com/croningp/pycont
+git+https://github.com/croningp/commanduino
+git+ssh://git@gitlab.com/croningroup/chemputer/commanduinolabware.git
+git+ssh://git@gitlab.com/croningroup/chemputer/seriallabware.git

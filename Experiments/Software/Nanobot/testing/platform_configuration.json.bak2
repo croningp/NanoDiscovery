@@ -1,0 +1,159 @@
+{
+    "commanduino": {
+        "ios": [
+            {
+                "type": "serial",
+                "port": "/dev/ttyACM0"
+            },
+            {
+                "type": "serial",
+                "port": "/dev/ttyACM1"
+            },
+            {
+                "type": "serial",
+                "port": "/dev/ttyACM2"
+            }
+        ],
+        "devices": {
+            "sample": {
+                "command_id": "X",
+                "config": {
+                    "reverted_switch": true,
+                    "reverted_direction": false,
+                    "enabled_acceleration": false,
+                    "speed": 20000,
+                    "homing_speed": 20000,
+                    "acceleration": 2000
+                }
+            },
+            "ph_horz": {
+                "command_id": "Y",
+                "config": {
+                    "reverted_switch": true,
+                    "reverted_direction": false,
+                    "enabled_acceleration": false,
+                    "speed": 20000,
+                    "max_speed": 20000,
+                    "homing_speed": 20000,
+                    "acceleration": 2000
+                }
+            },
+            "nil": {
+                "command_id": "Z",
+                "config": {
+                    "reverted_switch": true,
+                    "reverted_direction": false,
+                    "enabled_acceleration": false,
+                    "speed": 12000,
+                    "max_speed": 12000,
+                    "homing_speed": 12000,
+                    "acceleration": 2000
+                }
+            },
+            "wheel": {
+                "command_id": "E0",
+                "config": {
+                    "reverted_switch": true,
+                    "reverted_direction": false,
+                    "enabled_acceleration": false,
+                    "speed": 5000,
+                    "max_speed": 12000,
+                    "homing_speed": 12000,
+                    "acceleration": 2000
+                }
+            },
+            "ph_vert": {
+                "command_id": "E1",
+                "config": {
+                    "speed": 20000,
+                    "homing_speed": 20000,
+                    "max_speed": 50000,
+                    "reverted_switch": true,
+                    "reverted_direction": false,
+                    "enabled_acceleration": false
+                }
+            },
+            "ring": {
+                "command_id": "ring"
+            },
+            "wash_fan": {
+                "command_id": "wash"
+            }
+        }
+    },
+    "triconts": {
+        "io": {
+            "port": "/dev/ttyUSB0",
+            "baudrate": 9600,
+            "timeout": 1
+        },
+        "default": {
+            "volume": 5,
+            "micro_step_mode": 2,
+            "top_velocity": 8000,
+            "initialize_valve_position": "I"
+        },
+        "groups": {
+            "cleaning": ["acid","water"],
+            "spheres": ["gold", "surfactant", "reductant"],
+            "rods": ["gold", "surfactant", "reductant", "silver", "seeds","acid"]
+        },
+        "pumps": {
+            "regia": {
+                "switch": "2",
+                "top_velocity": 5000
+            },
+            "surfactant": {
+                "switch": "3",
+                "top_velocity": 5000
+            },
+            "reductant": {
+                "switch": "4",
+                "volume": 0.5
+            },
+            "seeds": {
+                "switch": "5",
+                "volume": 1.0
+            },
+            "gold": {
+                "switch": "6"
+            },
+            "silver": {
+                "switch": "7",
+                "volume": 2.5
+            },
+            "probe": {
+                "switch": "8",
+                "volume": 2.5
+            },
+            "extra1": {
+                "switch": "A"
+            },
+            "extra2": {
+                "switch": "B"
+            }
+        }
+    },
+    "pH_calibrations": {
+        "pH4": 400.0,
+        "pH7": 700.0,
+        "pH10": 1000.0
+    },
+    "camera": {
+        "device": 0,
+        "control_config": {
+        "brightness": 133,
+        "contrast": 5,
+        "saturation": 83,
+        "white_balance_temperature_auto": 1,
+        "power_line_frequency": 1,
+        "sharpness": 50,
+        "backlight_compensation": 0,
+        "exposure_auto": 3,
+        "focus_auto": 1,
+        "focus_absolute": 28,
+        "zoom_absolute": 0
+        }
+    },
+    "spectrometers": []
+}

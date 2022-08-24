@@ -1,0 +1,81 @@
+<Synthesis>
+
+  <Hardware>
+    <Component
+      id="reactor"
+      type="reactor"
+    />
+  </Hardware>
+
+  <Reagents>
+    <Reagent
+      name="57-09-0 (0.2 M)"
+    />
+    <Reagent
+      name="16961-25-4 (0.00086 M)"
+    />
+    <Reagent
+      name="7761-88-8 (0.00025 M)"
+    />
+    <Reagent
+      name="50-81-7 (0.0131 M)"
+    />
+    <Reagent
+      name="fea22ec7926730ffd8649f4bf2d2bbfdd5958f219c319407a3001f7847c2baed"
+    />
+    <Reagent
+      name="7732-18-5"
+    />
+  </Reagents>
+
+  <Procedure>
+    <HeatChillToTemp
+      vessel="reactor"
+      temp = "30"
+    />
+    <StartStir
+      vessel="reactor"
+      stir_speed = "600"
+    />
+    <Add
+      vessel="reactor"
+      reagent="57-09-0 (0.2 M)"
+      volume="1.51 mL"
+    />
+    <Add
+      vessel="reactor"
+      reagent="16961-25-4 (0.00086 M)"
+      volume="2.53 mL"
+    />
+    <Add
+      vessel="reactor"
+      reagent="7761-88-8 (0.00025 M)"
+      volume="0.09 mL"
+    />
+    <Add
+      vessel="reactor"
+      reagent="50-81-7 (0.0131 M)"
+      volume="1.78 mL"
+    /> 
+    <Wait
+      time="10 s"
+    />
+    <Add
+      vessel="reactor"
+      reagent="7732-18-5"
+      volume="5.59 mL"
+    />
+    <Add
+      vessel="reactor"
+      reagent="fea22ec7926730ffd8649f4bf2d2bbfdd5958f219c319407a3001f7847c2baed"
+      volume="0.50 mL"
+    />
+    <StopStir
+      vessel="reactor"
+    />
+    <Wait
+      time = '7915 s'
+    />
+  </Procedure>
+
+</Synthesis>

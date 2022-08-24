@@ -1,0 +1,412 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 12.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     16364,        404]
+NotebookOptionsPosition[     14753,        370]
+NotebookOutlinePosition[     15277,        389]
+CellTagsIndexPosition[     15234,        386]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Algorithmic Evolution of Gold Nanoparticles", "Title",
+ CellChangeTimes->{{3.8133462589815006`*^9, 3.8133462952518115`*^9}, {
+  3.8133464558226714`*^9, 
+  3.8133465117995586`*^9}},ExpressionUUID->"e46fced4-e3ca-44b3-933a-\
+046ba82a1dc2"],
+
+Cell["\<\
+Abhishek Sharma, Yibin Jiang
+Cronin Lab
+University of Glasgow\
+\>", "Subsubsection",
+ CellChangeTimes->{{3.8133462718972087`*^9, 3.813346284413179*^9}, {
+  3.8384558561805887`*^9, 
+  3.838455857656348*^9}},ExpressionUUID->"b4ad52eb-663d-4707-a4ab-\
+a593e3cd3f04"],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+Generating Nanoparticle Shapes for DDA calculations with variable dipole \
+length\
+\>", "Section",
+ CellChangeTimes->{{3.8133463275366726`*^9, 3.813346352911785*^9}, {
+  3.8133465155393314`*^9, 3.81334653060787*^9}, {3.813418354578467*^9, 
+  3.8134183791213946`*^9}},ExpressionUUID->"1be8911f-740d-4009-9c91-\
+9492e6fbc1cd"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"baseDirectory", "=", 
+   RowBox[{"NotebookDirectory", "[", "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.813346684741343*^9, 3.8133466985173383`*^9}},
+ CellLabel->"In[1]:=",ExpressionUUID->"3c345f7a-6b86-4a01-a1ea-4dae0da1756f"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"maxDipoles", "=", "6000"}], ";"}], " ", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "Maximum", " ", "number", " ", "of", " ", "dipoles", " ", "due", " ", "to",
+     " ", "GPU", " ", "limitation"}], " ", "*)"}]}]], "Input",
+ CellChangeTimes->{{3.8133873206365795`*^9, 3.8133873415196805`*^9}, {
+  3.8134019543734245`*^9, 3.813401965589118*^9}},
+ CellLabel->"In[2]:=",ExpressionUUID->"b2891e59-dc37-4d73-927a-2d6c6dfba52f"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"minDipoleLength", "=", "1."}], ";"}], " ", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "Minimum", " ", "Length", " ", "between", " ", "dipoles", " ", "for", " ", 
+    "DDA", " ", "calculations"}], " ", "*)"}]}]], "Input",
+ CellChangeTimes->{{3.8134019705626574`*^9, 3.8134020066021767`*^9}, {
+  3.8134020366870737`*^9, 3.8134020403238993`*^9}, {3.8134021566266384`*^9, 
+  3.813402191825985*^9}, {3.813418525154597*^9, 3.8134185271116*^9}},
+ CellLabel->"In[3]:=",ExpressionUUID->"253febce-e82e-480c-ae2d-df2b49aab73c"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"redFactor", "=", "1.2"}], ";"}], 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "Reduction", " ", "factor", " ", "for", " ", "decreasing", " ", "number", 
+    " ", "of", " ", "dipoles"}], " ", "*)"}]}]], "Input",
+ CellChangeTimes->{{3.8134196360191536`*^9, 3.813419720698916*^9}},
+ CellLabel->"In[4]:=",ExpressionUUID->"5a955fe0-f4a6-42d5-8380-3d9030c48157"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"SuperEllipsoid", "[", 
+   RowBox[{"{", 
+    RowBox[{"a_", ",", "b_", ",", "c_", ",", "r_", ",", "t_"}], "}"}], "]"}], 
+  ":=", 
+  RowBox[{
+   SuperscriptBox[
+    RowBox[{"(", 
+     RowBox[{
+      SuperscriptBox[
+       RowBox[{"Abs", "[", 
+        FractionBox["x", "a"], "]"}], "r"], "+", 
+      SuperscriptBox[
+       RowBox[{"Abs", "[", 
+        FractionBox["y", "b"], "]"}], "r"]}], ")"}], 
+    RowBox[{"t", "/", "r"}]], "+", 
+   SuperscriptBox[
+    RowBox[{"Abs", "[", 
+     FractionBox["z", "c"], "]"}], "t"], "-", "1"}]}]], "Input",
+ CellLabel->"In[5]:=",ExpressionUUID->"fc3ffe7c-9e69-45e4-b55b-e204c9ad3db8"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"createDipoles", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"a_", ",", "b_", ",", "c_", ",", "r_", ",", "t_"}], "}"}], ",", 
+    " ", "dLength_"}], "]"}], ":=", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+     "eqn", ",", "\[ScriptCapitalR]", ",", " ", "dipoleListInteger", ",", 
+      "nDipolesX", ",", " ", "nDipolesY", ",", 
+      RowBox[{"nDipoles", "=", "99999"}], ",", "nDipolesZ", ",", " ", 
+      "dipoleList", ",", "dipoleListF", ",", "dLen", ",", "dirPath", ","}], 
+     "}"}], ",", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"dLen", "=", "dLength"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"eqn", "=", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{
+         SuperscriptBox[
+          RowBox[{"(", 
+           RowBox[{
+            SuperscriptBox[
+             RowBox[{"Abs", "[", 
+              FractionBox["x", "a"], "]"}], "r"], "+", 
+            SuperscriptBox[
+             RowBox[{"Abs", "[", 
+              FractionBox["y", "b"], "]"}], "r"]}], ")"}], 
+          RowBox[{"t", "/", "r"}]], "+", 
+         SuperscriptBox[
+          RowBox[{"Abs", "[", 
+           FractionBox["z", "c"], "]"}], "t"]}], "\[LessEqual]", "1"}], 
+       ")"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"\[ScriptCapitalR]", "=", 
+      RowBox[{"ImplicitRegion", "[", 
+       RowBox[{"eqn", ",", 
+        RowBox[{"{", 
+         RowBox[{"x", ",", "y", ",", "z"}], "}"}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"While", "[", 
+      RowBox[{
+       RowBox[{"nDipoles", "\[GreaterEqual]", " ", "maxDipoles"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"nDipolesX", "=", 
+         RowBox[{"Round", "[", 
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{"1", "/", "dLen"}], ")"}], "2", "a"}], "]"}]}], ";", 
+        RowBox[{"nDipolesY", "=", 
+         RowBox[{"Round", "[", 
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{"1", "/", "dLen"}], ")"}], "2", "b"}], "]"}]}], ";", 
+        RowBox[{"nDipolesZ", "=", 
+         RowBox[{"Round", "[", 
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{"1", "/", "dLen"}], ")"}], "2", "c"}], "]"}]}], ";", 
+        RowBox[{"dipoleList", "=", 
+         RowBox[{"Flatten", "[", 
+          RowBox[{
+           RowBox[{"Table", "[", 
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{"xD", ",", "yD", ",", "zD"}], "}"}], ",", 
+             RowBox[{"{", 
+              RowBox[{"xD", ",", "0", ",", 
+               RowBox[{"nDipolesX", "+", "1"}]}], "}"}], ",", 
+             RowBox[{"{", 
+              RowBox[{"yD", ",", "0", ",", 
+               RowBox[{"nDipolesY", "+", "1"}]}], "}"}], ",", 
+             RowBox[{"{", 
+              RowBox[{"zD", ",", "0", ",", 
+               RowBox[{"nDipolesZ", "+", "1"}]}], "}"}]}], "]"}], ",", "2"}], 
+          "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"dipoleListF", "=", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"Pick", "[", 
+            RowBox[{
+             RowBox[{
+             "#", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], ",", 
+             RowBox[{
+             "#", "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}]}], 
+            "]"}], "&"}], "/@", 
+          RowBox[{"Evaluate", "[", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{"#", ",", 
+               RowBox[{"RegionMember", "[", 
+                RowBox[{"\[ScriptCapitalR]", ",", 
+                 RowBox[{"{", 
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{"-", "a"}], "+", 
+                    RowBox[{
+                    RowBox[{
+                    "#", "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}], "*", "dLen"}]}], ",", 
+                   RowBox[{
+                    RowBox[{"-", "b"}], "+", 
+                    RowBox[{
+                    RowBox[{
+                    "#", "\[LeftDoubleBracket]", "2", 
+                    "\[RightDoubleBracket]"}], "*", "dLen"}]}], ",", 
+                   RowBox[{
+                    RowBox[{"-", "c"}], "+", 
+                    RowBox[{
+                    RowBox[{
+                    "#", "\[LeftDoubleBracket]", "3", 
+                    "\[RightDoubleBracket]"}], "*", "dLen"}]}]}], "}"}]}], 
+                "]"}]}], "}"}], "&"}], "/@", "dipoleList"}], "]"}]}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"nDipoles", "=", 
+         RowBox[{"Length", "@", "dipoleListF"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"dLen", "=", 
+         RowBox[{"dLen", "*", "redFactor"}]}], ";"}]}], "]"}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{
+       RowBox[{"Print", "[", 
+        RowBox[{"\"\<params: \>\"", ",", 
+         RowBox[{"{", 
+          RowBox[{"a", ",", "b", ",", "c", ",", "r", ",", "t"}], "}"}], ",", 
+         "\"\<, Number of Dipoles : \>\"", ",", 
+         RowBox[{"Length", "@", "dipoleListF"}]}], "]"}], ";"}], " ", "*)"}], 
+     "\[IndentingNewLine]", 
+     RowBox[{"dirPath", "=", 
+      RowBox[{"baseDirectory", "<>", "\"\<Experiment\>\"", "<>", 
+       RowBox[{"StringJoin", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"\"\<_\>\"", "<>", "#"}], "&"}], "/@", 
+         RowBox[{"ToString", "/@", 
+          RowBox[{"{", 
+           RowBox[{"a", ",", "b", ",", "c", ",", "r", ",", "t"}], "}"}]}]}], 
+        "]"}]}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"CreateDirectory", "[", "dirPath", "]"}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"Export", "[", 
+      RowBox[{
+       RowBox[{"dirPath", "<>", "\"\</dipoleList.csv\>\""}], ",", 
+       "dipoleListF", ",", "\"\<CSV\>\""}], "]"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"Export", "[", 
+      RowBox[{
+       RowBox[{"dirPath", "<>", "\"\</dipole_length.csv\>\""}], ",", 
+       RowBox[{"dLen", "/", "redFactor"}], ",", "\"\<CSV\>\""}], "]"}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"f", " ", "=", 
+      RowBox[{"Graphics3D", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"Yellow", ",", 
+          RowBox[{"Sphere", "[", 
+           RowBox[{"dipoleListF", ",", "0.5"}], "]"}]}], "}"}], ",", 
+        RowBox[{"LabelStyle", "\[Rule]", 
+         RowBox[{"{", 
+          RowBox[{"Black", ",", 
+           RowBox[{"Directive", "[", 
+            RowBox[{"Black", ",", 
+             RowBox[{"FontColor", "\[Rule]", "Black"}], ",", 
+             RowBox[{"FontSize", "\[Rule]", "12"}]}], "]"}]}], "}"}]}], ",", 
+        RowBox[{"Boxed", "\[Rule]", "False"}], ",", 
+        RowBox[{"Axes", "\[Rule]", " ", "False"}], ",", 
+        RowBox[{"ImageSize", "\[Rule]", "200"}], ",", 
+        RowBox[{"ViewProjection", "\[Rule]", "\"\<Orthographic\>\""}], ",", 
+        RowBox[{"ViewPoint", "\[Rule]", 
+         RowBox[{"{", 
+          RowBox[{"2", ",", 
+           RowBox[{"-", "2"}], ",", "1"}], "}"}]}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"Export", "[", 
+      RowBox[{
+       RowBox[{"dirPath", "<>", "\"\</Dipole.png\>\""}], ",", "f", ",", 
+       RowBox[{"ImageResolution", "->", "200"}]}], "]"}], ";"}]}], 
+   "\[IndentingNewLine]", "]"}]}]], "Input",
+ CellChangeTimes->{{3.813417702264372*^9, 3.8134177040262938`*^9}, {
+   3.813417753986987*^9, 3.813417887098298*^9}, {3.8134180515275908`*^9, 
+   3.8134180936114173`*^9}, {3.813418127842613*^9, 3.813418129233735*^9}, {
+   3.813418188267871*^9, 3.813418343644142*^9}, {3.8134183862453136`*^9, 
+   3.8134183898801813`*^9}, {3.8134184285837474`*^9, 3.813418431097026*^9}, {
+   3.8134184827172174`*^9, 3.813418484024417*^9}, {3.8134185477992754`*^9, 
+   3.813418553501132*^9}, {3.813419289030676*^9, 3.8134193403890743`*^9}, 
+   3.813419400817025*^9, {3.813419620918957*^9, 3.8134196273991623`*^9}, {
+   3.8134197257286053`*^9, 3.8134197264430237`*^9}, {3.8134200018576536`*^9, 
+   3.8134201212290077`*^9}, {3.8134201871686764`*^9, 
+   3.8134201886686716`*^9}, {3.813514848873443*^9, 3.813514884569748*^9}, {
+   3.813514975541027*^9, 3.8135150302183867`*^9}, {3.8135151724794607`*^9, 
+   3.813515176811306*^9}, {3.8135153096539855`*^9, 3.8135153204654417`*^9}, {
+   3.8135153705814123`*^9, 3.8135153798636894`*^9}, {3.813515451478289*^9, 
+   3.8135154620762014`*^9}, {3.8135155946705246`*^9, 3.813515614161792*^9}, {
+   3.8135156874505787`*^9, 3.813515736927975*^9}, 3.813515779581197*^9, {
+   3.813515836384935*^9, 3.813515836773772*^9}, {3.813515949038021*^9, 
+   3.813515959348054*^9}, {3.813517439877709*^9, 3.813517441726345*^9}, {
+   3.813518344671805*^9, 3.813518350372108*^9}, {3.813519795578644*^9, 
+   3.813519823581156*^9}, {3.813519874357007*^9, 3.813519888267535*^9}, {
+   3.813519957144197*^9, 3.813520006715547*^9}, {3.813520076924917*^9, 
+   3.813520113146895*^9}, {3.8135201444037848`*^9, 3.813520145102146*^9}},
+ CellLabel->"In[6]:=",ExpressionUUID->"281aff64-a26e-4434-9a42-34ba2c5f1426"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"createDipoles", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"20", ",", "20", ",", "20", ",", "1", ",", "1"}], "}"}], ",", " ",
+    "minDipoleLength"}], "]"}]], "Input",
+ CellChangeTimes->{{3.837698800642908*^9, 3.8376988288008375`*^9}},
+ CellLabel->"In[7]:=",ExpressionUUID->"04bba2ef-b2c0-43c4-be5c-d62228fb5054"],
+
+Cell[BoxData["Null$2533"], "Output",
+ CellChangeTimes->{3.8376988340620723`*^9},
+ CellLabel->"Out[7]=",ExpressionUUID->"b929bf82-4902-410e-80a0-ed2da8d2d857"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{"(*", " ", 
+  RowBox[{
+   RowBox[{
+   "This", " ", "command", " ", "is", " ", "used", " ", "to", " ", "generate",
+     " ", "a", " ", "series", " ", "of", " ", "differen", " ", "tshapes", 
+    "\[IndentingNewLine]", 
+    RowBox[{"Table", "[", 
+     RowBox[{
+      RowBox[{"createDipoles", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"20", ",", "20", ",", "k", ",", "i", ",", "j"}], "}"}], ",", 
+        " ", "minDipoleLength"}], "]"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"k", ",", "20", ",", "60", ",", "5"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"i", ",", "1", ",", "3", ",", "0.2"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"j", ",", "1", ",", "3", ",", "0.2"}], "}"}]}], "]"}]}], ";"}],
+   "*)"}]], "Input",
+ CellChangeTimes->{{3.813417832550823*^9, 3.8134178412827415`*^9}, {
+   3.813418496226738*^9, 3.813418496954142*^9}, {3.8134185733927517`*^9, 
+   3.813418596294714*^9}, {3.8134188148986206`*^9, 3.8134188418838577`*^9}, {
+   3.813418986340334*^9, 3.8134189901278696`*^9}, {3.813419079739051*^9, 
+   3.813419085325038*^9}, {3.8134191828979373`*^9, 3.8134191985535154`*^9}, {
+   3.813419423423874*^9, 3.8134194307515554`*^9}, {3.813419757258811*^9, 
+   3.8134197598684797`*^9}, {3.8135175062523966`*^9, 
+   3.8135175074288063`*^9}, {3.8135179587655163`*^9, 3.813517978314937*^9}, 
+   3.813518247833634*^9, {3.8376988038174443`*^9, 
+   3.837698820738061*^9}},ExpressionUUID->"554b3df2-5b3f-4428-8dce-\
+c0305cdd0db5"]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{949, 467},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+TaggingRules->{
+ "WelcomeScreenSettings" -> {"FEStarting" -> False}, "TryRealOnly" -> False},
+Magnification:>0.9 Inherited,
+FrontEndVersion->"12.2 for Microsoft Windows (64-bit) (December 12, 2020)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"5752ba92-2c32-4ea1-83fb-cc5665731550"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 243, 4, 87, "Title",ExpressionUUID->"e46fced4-e3ca-44b3-933a-046ba82a1dc2"],
+Cell[826, 28, 273, 8, 85, "Subsubsection",ExpressionUUID->"b4ad52eb-663d-4707-a4ab-a593e3cd3f04"],
+Cell[CellGroupData[{
+Cell[1124, 40, 334, 7, 47, "Section",ExpressionUUID->"1be8911f-740d-4009-9c91-9492e6fbc1cd"],
+Cell[1461, 49, 265, 5, 25, "Input",ExpressionUUID->"3c345f7a-6b86-4a01-a1ea-4dae0da1756f"],
+Cell[1729, 56, 462, 10, 25, "Input",ExpressionUUID->"b2891e59-dc37-4d73-927a-2d6c6dfba52f"],
+Cell[2194, 68, 558, 11, 25, "Input",ExpressionUUID->"253febce-e82e-480c-ae2d-df2b49aab73c"],
+Cell[2755, 81, 396, 9, 25, "Input",ExpressionUUID->"5a955fe0-f4a6-42d5-8380-3d9030c48157"],
+Cell[3154, 92, 651, 20, 39, "Input",ExpressionUUID->"fc3ffe7c-9e69-45e4-b55b-e204c9ad3db8"],
+Cell[3808, 114, 8888, 203, 430, "Input",ExpressionUUID->"281aff64-a26e-4434-9a42-34ba2c5f1426"],
+Cell[CellGroupData[{
+Cell[12721, 321, 340, 7, 25, "Input",ExpressionUUID->"04bba2ef-b2c0-43c4-be5c-d62228fb5054"],
+Cell[13064, 330, 158, 2, 29, "Output",ExpressionUUID->"b929bf82-4902-410e-80a0-ed2da8d2d857"]
+}, Open  ]],
+Cell[13237, 335, 1488, 31, 43, "Input",ExpressionUUID->"554b3df2-5b3f-4428-8dce-c0305cdd0db5"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+

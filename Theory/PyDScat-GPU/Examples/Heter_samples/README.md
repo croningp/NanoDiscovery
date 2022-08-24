@@ -1,0 +1,1 @@
+The dipole list and atomic model are generated with mathematica. It's 20 nm(edge length) octahedron with FCC structure. The lattice constant is 0.41 nm. The file name of dipole set is changed (after created origially) for the DDA simulation.

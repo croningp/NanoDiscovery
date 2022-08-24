@@ -1,0 +1,9 @@
+{
+    "surfactant": 1e-10,
+    "reductant": 0.88,
+    "water_reagent": 6.12,
+    "silver": 0.82,
+    "gold": 3.4,
+    "seeds": 0.5,
+    "pH": 5.5
+}

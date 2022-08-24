@@ -1,0 +1,131 @@
+<Synthesis>
+
+  <Hardware>
+    <Component
+      id="reactor"
+      type="reactor"
+    />
+  </Hardware>
+
+  <Reagents>
+    <Reagent
+      name="57-09-0 (0.2 M)"
+    />
+    <Reagent
+      name="16961-25-4 (0.00086 M)"
+    />
+    <Reagent
+      name="7761-88-8 (0.00025 M)"
+    />
+    <Reagent
+      name="123-31-9 (0.0131 M)"
+    />
+    <Reagent
+      name="7732-18-5"
+    />
+    <Reagent
+      name="7647-01-0 (0.1 M)"
+    />
+    <Reagent
+      name="1310-73-2 (0.1 M)"
+    />
+    <Reagent
+      name="bb669cd6bedb01d4b02403646a422ca2df5c5c0bc64477dc07c9021a8f487984"
+    />
+  </Reagents>
+
+  <Procedure>
+    <HeatChillToTemp
+      vessel="reactor"
+      temp = "30"
+    />
+    <StartStir
+      vessel="reactor"
+      stir_speed = "600"
+    />
+    <Add
+      vessel="reactor"
+      reagent="57-09-0 (0.2 M)"
+      volume="1.85 mL"
+    />
+    <Add
+      vessel="reactor"
+      reagent="123-31-9 (0.0131 M)"
+      volume="1.07 mL"
+    />
+    <Add
+      vessel="reactor"
+      reagent="7732-18-5"
+      volume="4.08 mL"
+    />
+    <Add
+      vessel="reactor"
+      reagent="1310-73-2 (0.1 M)"
+      volume="0.03329926109838151 mL"
+    /> 
+    <Wait
+      time = '10 s'
+    />
+    <Add
+      vessel="reactor"
+      reagent="7647-01-0 (0.1 M)"
+      volume="0.03524209806590566 mL"
+    /> 
+    <Wait
+      time = '10 s'
+    />
+
+    <Add
+      vessel="reactor"
+      reagent="1310-73-2 (0.1 M)"
+      volume="0.016354281436007426 mL"
+    /> 
+    <Wait
+      time = '10 s'
+    />
+    <Add
+      vessel="reactor"
+      reagent="7647-01-0 (0.1 M)"
+      volume="0.006491270179119473 mL"
+    /> 
+    <Wait
+      time = '10 s'
+    />
+    <Wait
+      time = '15 s'
+    />
+    <Add
+      vessel="reactor"
+      reagent="7647-01-0 (0.1 M)"
+      volume="0.0011402134093238597 mL"
+    /> 
+    <Wait
+      time = '10 s'
+    />
+    <Wait
+      time = '15 s'
+    />
+    <Add
+      vessel="reactor"
+      reagent="7761-88-8 (0.00025 M)"
+      volume="0.07 mL"
+    />
+    <Add
+      vessel="reactor"
+      reagent="16961-25-4 (0.00086 M)"
+      volume="3.09 mL"
+    />
+    <Add
+      vessel="reactor"
+      reagent="bb669cd6bedb01d4b02403646a422ca2df5c5c0bc64477dc07c9021a8f487984"
+      volume="0.50 mL"
+    />
+    <StopStir
+      vessel="reactor"
+    />
+    <Wait
+      time = '60829 s'
+    />
+  </Procedure>
+
+</Synthesis>
