@@ -8,6 +8,7 @@
 .. moduleauthor:: Graham Keenan (Cronin Lab 2020)
 
 .. note:: Code is adapted from code written by Abhishek Sharma (Cronin Lab 2018)
+          which was adapted from https://github.com/mischele/DRDAQ
 
 """
 
